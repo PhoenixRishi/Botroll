@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Botroll 🤖</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+
+    #chatBox {
+      background-color: #c3f570; /* yellow-green shade */
+      color: #111;
+      width: 90%;
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: left;
+      min-height: 300px;
+      overflow-y: auto;
+      box-shadow: 0 0 10px #ff5e7e60;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .user {
+      background-color: #ff5e7e;
+      color: white;
+      text-align: right;
+    }
+
+    .bot {
+      background-color: #fff;
+      color: #111;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 60%;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #ff5e7e;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .typing {
+      font-style: italic;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🤖 Welcome to Botroll</h1>
+  <p>Type something to chat... if you dare 👀</p>
+
+  <div id="chatBox"></div>
+
+  <input type="text" id="userInput" placeholder="Your message here..." />
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    const responses = [
+      "Did you just say that out loud? 😂",
+      "Hmm... I’ll pretend I didn’t hear that.",
+      "Processing... nope, still confused 🤔",
+      "You're funny. Not as funny as me though.",
+      "Oh wow. That's... something.",
+      "Tell me more so I can ignore it 😎",
+      "Who let you on the internet?",
+      "Wait... are you talking to me?",
+      "LOL! Classic you. 😏",
+      "Nope. Not responding to that."
+    ];
+
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage(text, 'user');
+      input.value = '';
+      showTyping();
+
+      setTimeout(() => {
+        const reply = responses[Math.floor(Math.random() * responses.length)];
+        removeTyping();
+        addMessage(reply, 'bot');
+      }, 1000 + Math.random() * 1000);
+    }
+
+    function addMessage(text, type) {
+      const chatBox = document.getElementById('chatBox');
+      const msg = document.createElement('div');
+      msg.classList.add('message', type);
+      msg.innerText = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function showTyping() {
+      const chatBox = document.getElementById('chatBox');
+      const typing = document.createElement('div');
+      typing.id = 'typing';
+      typing.classList.add('message', 'bot', 'typing');
+      typing.innerText = 'Botroll is typing...';
+      chatBox.appendChild(typing);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function removeTyping() {
+      const typing = document.getElementById('typing');
+      if (typing) typing.remove();
+    }
+  </script>
+</body>
+</html>
