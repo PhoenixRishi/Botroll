@@ -1,58 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Botroll 🤖</title>
+  <title>Botroll: The Sass Machine 🤖🔥</title>
   <style>
     body {
-      background-color: #111;
-      color: white;
-      font-family: Arial, sans-serif;
+      background-color: #1a1a1a;
+      color: #fff;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
       text-align: center;
       padding: 30px;
     }
 
+    h1 {
+      font-size: 2.8em;
+      color: #ff4f81;
+      text-shadow: 0 0 5px #fff;
+    }
+
     #chatBox {
-      background-color: #c3f570; /* yellow-green shade */
-      color: #111;
+      background-color: #292929;
+      color: white;
       width: 90%;
-      max-width: 500px;
+      max-width: 600px;
       margin: 20px auto;
       padding: 20px;
       border-radius: 12px;
       text-align: left;
       min-height: 300px;
       overflow-y: auto;
-      box-shadow: 0 0 10px #ff5e7e60;
+      box-shadow: 0 0 15px #ff4f8160;
     }
 
     .message {
       margin: 10px 0;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 12px 18px;
+      border-radius: 10px;
+      line-height: 1.6;
+      animation: fadeIn 0.3s ease-in;
     }
 
     .user {
-      background-color: #ff5e7e;
-      color: white;
+      background-color: #59c3c3;
+      color: #000;
       text-align: right;
+      margin-left: 30%;
     }
 
     .bot {
-      background-color: #fff;
-      color: #111;
+      background-color: #ff4f81;
+      color: white;
+      text-align: left;
+      margin-right: 30%;
+      animation: shake 0.3s ease-in-out;
     }
 
     input {
-      padding: 10px;
+      padding: 12px;
       font-size: 16px;
       width: 60%;
       border-radius: 6px;
       border: none;
+      margin-top: 20px;
     }
 
     button {
-      padding: 10px 20px;
-      background-color: #ff5e7e;
+      padding: 12px 20px;
+      background-color: #ff4f81;
       color: white;
       font-size: 16px;
       border: none;
@@ -63,32 +76,60 @@
 
     .typing {
       font-style: italic;
-      opacity: 0.8;
+      opacity: 0.7;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-2px); }
+      50% { transform: translateX(2px); }
+      75% { transform: translateX(-2px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
-  <h1>🤖 Welcome to Botroll</h1>
-  <p>Type something to chat... if you dare 👀</p>
+  <h1>🤖 Botroll: The Sass Machine</h1>
+  <p>Type anything... if you're emotionally prepared 😈</p>
 
   <div id="chatBox"></div>
 
-  <input type="text" id="userInput" placeholder="Your message here..." />
-  <button onclick="sendMessage()">Send</button>
+  <input type="text" id="userInput" placeholder="Come on, impress me..." />
+  <button onclick="sendMessage()">Roast Me</button>
 
   <script>
-    const responses = [
-      "Did you just say that out loud? 😂",
-      "Hmm... I’ll pretend I didn’t hear that.",
-      "Processing... nope, still confused 🤔",
-      "You're funny. Not as funny as me though.",
-      "Oh wow. That's... something.",
-      "Tell me more so I can ignore it 😎",
-      "Who let you on the internet?",
-      "Wait... are you talking to me?",
-      "LOL! Classic you. 😏",
-      "Nope. Not responding to that."
+    const keywordRoasts = {
+      cat: "Oh great, another cat person. Just what the internet needed. 🐾",
+      dog: "Dogs are great. Their owners though... debatable. 🐶",
+      mom: "Leave your mom out of this. She already regrets this conversation. 😂",
+      school: "School called. They want their last shred of dignity back. 📚",
+      job: "Your job? You mean professional disappointment?",
+      ai: "Talking to AI because real people ghosted you, huh? 🫠",
+      love: "Love? More like a glitch in the human system.",
+      food: "Food won’t fix your personality, but it’s a tasty distraction. 🍕",
+      life: "Life’s hard. Especially for you. Somehow.",
+      code: "Your code has more bugs than a motel mattress. 💻",
+      game: "Gamer? You must be speedrunning rock bottom. 🎮",
+      coffee: "Another coffee? It’s not caffeine, it’s a coping mechanism."
+    };
+
+    const randomRoasts = [
+      "That was a sentence. Technically.",
+      "You sound like someone who argues with Siri.",
+      "Is that your opinion? Bold move.",
+      "If awkward had a fan club, you'd be president.",
+      "You talk like you're on a conference call no one asked for.",
+      "Even autocorrect gave up on that one.",
+      "You type like your keyboard's judging you. It is.",
+      "Did you Google that? Please tell me you didn’t.",
+      "If boring was a sport, you'd be undefeated.",
+      "You're not even wrong. Just... irrelevant."
     ];
 
     function sendMessage() {
@@ -101,10 +142,20 @@
       showTyping();
 
       setTimeout(() => {
-        const reply = responses[Math.floor(Math.random() * responses.length)];
+        const reply = getRoastResponse(text);
         removeTyping();
         addMessage(reply, 'bot');
       }, 1000 + Math.random() * 1000);
+    }
+
+    function getRoastResponse(text) {
+      const lowerText = text.toLowerCase();
+      for (let keyword in keywordRoasts) {
+        if (lowerText.includes(keyword)) {
+          return keywordRoasts[keyword];
+        }
+      }
+      return randomRoasts[Math.floor(Math.random() * randomRoasts.length)];
     }
 
     function addMessage(text, type) {
@@ -113,15 +164,13 @@
       msg.classList.add('message', type);
       msg.innerText = text;
       chatBox.appendChild(msg);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
+      chatBox.scrollTop = chat
     function showTyping() {
       const chatBox = document.getElementById('chatBox');
       const typing = document.createElement('div');
       typing.id = 'typing';
       typing.classList.add('message', 'bot', 'typing');
-      typing.innerText = 'Botroll is typing...';
+      typing.innerText = 'Botroll is preparing emotional damage... 💣';
       chatBox.appendChild(typing);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
